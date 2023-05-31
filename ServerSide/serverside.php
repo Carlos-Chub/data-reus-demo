@@ -51,29 +51,29 @@ class TableData {
 		 * on very large tables, and MySQL's regex functionality is very limited
 		 */
 		$sWhere = "";
-		if ( isset($_GET['sSearch']) && $_GET['sSearch'] != "" ) {
-			$sWhere = "WHERE (";
-			for ( $i=0 ; $i<count($columns) ; $i++ ) {
-				if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" ) {
-					$sWhere .= "`".$columns[$i]."` LIKE :search OR ";
-				}
-			}
-			$sWhere = substr_replace( $sWhere, "", -3 );
-			$sWhere .= ')';
-		}
+		// if ( isset($_GET['sSearch']) && $_GET['sSearch'] != "" ) {
+		// 	$sWhere = "WHERE (";
+		// 	for ( $i=0 ; $i<count($columns) ; $i++ ) {
+		// 		if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" ) {
+		// 			$sWhere .= "`".$columns[$i]."` LIKE :search OR ";
+		// 		}
+		// 	}
+		// 	$sWhere = substr_replace( $sWhere, "", -3 );
+		// 	$sWhere .= ')';
+		// }
 		
 		// Individual column filtering
-		// for ( $i=0 ; $i<count($columns) ; $i++ ) {
-		// 	if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' ) {
-		// 		if ( $sWhere == "" ) {
-		// 			$sWhere = "WHERE ";
-		// 		}
-		// 		else {
-		// 			$sWhere .= " AND ";
-		// 		}
-		// 		$sWhere .= "`".$columns[$i]."` LIKE :search".$i." ";
-		// 	}
-		// }
+		for ( $i=0 ; $i<count($columns) ; $i++ ) {
+			if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' ) {
+				if ( $sWhere == "" ) {
+					$sWhere = "WHERE ";
+				}
+				else {
+					$sWhere .= " AND ";
+				}
+				$sWhere .= "`".$columns[$i]."` LIKE :search".$i." ";
+			}
+		}
 		
 		// SQL queries get data to display
 		$sQuery = "SELECT SQL_CALC_FOUND_ROWS `".str_replace(" , ", " ", implode("`, `", $columns))."` FROM `".$table."` ".$sWhere." ".$sOrder." ".$sLimit;
