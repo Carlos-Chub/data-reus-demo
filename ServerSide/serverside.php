@@ -1,6 +1,6 @@
 <?php
 // include 'serversideConexion.php';
-define("HOST_SS","localhost");
+define("HOST_SS","75.102.22.34");
 define("DATABASE_SS","clhpzzvb_coope_FAPE");
 define("USER_SS","clhpzzvb_negroy96");
 define("PASSWORD_SS","b]72y.T[T4R8");
