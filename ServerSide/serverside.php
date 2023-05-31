@@ -83,11 +83,11 @@ class TableData {
 		if ( isset($_GET['sSearch']) && $_GET['sSearch'] != "" ) {
 			$statement->bindValue(':search', '%'.$_GET['sSearch'].'%', PDO::PARAM_STR);
 		}
-		for ( $i=0 ; $i<count($columns) ; $i++ ) {
-			if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' ) {
-				$statement->bindValue(':search'.$i, '%'.$_GET['sSearch_'.$i].'%', PDO::PARAM_STR);
-			}
-		}
+		// for ( $i=0 ; $i<count($columns) ; $i++ ) {
+		// 	if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' ) {
+		// 		$statement->bindValue(':search'.$i, '%'.$_GET['sSearch_'.$i].'%', PDO::PARAM_STR);
+		// 	}
+		// }
 
 		$statement->execute();
 		$rResult = $statement->fetchAll();
