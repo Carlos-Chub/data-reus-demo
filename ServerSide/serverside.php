@@ -51,16 +51,16 @@ class TableData {
 		 * on very large tables, and MySQL's regex functionality is very limited
 		 */
 		$sWhere = "";
-		// if ( isset($_GET['sSearch']) && $_GET['sSearch'] != "" ) {
-		// 	$sWhere = "WHERE (";
-		// 	for ( $i=0 ; $i<count($columns) ; $i++ ) {
-		// 		if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" ) {
-		// 			$sWhere .= "`".$columns[$i]."` LIKE :search OR ";
-		// 		}
-		// 	}
-		// 	$sWhere = substr_replace( $sWhere, "", -3 );
-		// 	$sWhere .= ')';
-		// }
+		if ( isset($_GET['sSearch']) && $_GET['sSearch'] != "" ) {
+			$sWhere = "WHERE (";
+			for ( $i=0 ; $i<count($columns) ; $i++ ) {
+				if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" ) {
+					$sWhere .= "`".$columns[$i]."` LIKE :search OR ";
+				}
+			}
+			$sWhere = substr_replace( $sWhere, "", -3 );
+			$sWhere .= ')';
+		}
 		
 		// Individual column filtering
 		// for ( $i=0 ; $i<count($columns) ; $i++ ) {
@@ -80,14 +80,14 @@ class TableData {
 		$statement = $this->_db->prepare($sQuery);
 		
 		// Bind parameters
-		// if ( isset($_GET['sSearch']) && $_GET['sSearch'] != "" ) {
-		// 	$statement->bindValue(':search', '%'.$_GET['sSearch'].'%', PDO::PARAM_STR);
-		// }
-		// for ( $i=0 ; $i<count($columns) ; $i++ ) {
-		// 	if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' ) {
-		// 		$statement->bindValue(':search'.$i, '%'.$_GET['sSearch_'.$i].'%', PDO::PARAM_STR);
-		// 	}
-		// }
+		if ( isset($_GET['sSearch']) && $_GET['sSearch'] != "" ) {
+			$statement->bindValue(':search', '%'.$_GET['sSearch'].'%', PDO::PARAM_STR);
+		}
+		for ( $i=0 ; $i<count($columns) ; $i++ ) {
+			if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' ) {
+				$statement->bindValue(':search'.$i, '%'.$_GET['sSearch_'.$i].'%', PDO::PARAM_STR);
+			}
+		}
 
 		$statement->execute();
 		$rResult = $statement->fetchAll();
