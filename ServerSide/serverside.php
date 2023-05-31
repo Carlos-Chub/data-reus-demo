@@ -63,17 +63,17 @@ class TableData {
 		}
 		
 		// Individual column filtering
-		for ( $i=0 ; $i<count($columns) ; $i++ ) {
-			if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' ) {
-				if ( $sWhere == "" ) {
-					$sWhere = "WHERE ";
-				}
-				else {
-					$sWhere .= " AND ";
-				}
-				$sWhere .= "`".$columns[$i]."` LIKE :search".$i." ";
-			}
-		}
+		// for ( $i=0 ; $i<count($columns) ; $i++ ) {
+		// 	if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' ) {
+		// 		if ( $sWhere == "" ) {
+		// 			$sWhere = "WHERE ";
+		// 		}
+		// 		else {
+		// 			$sWhere .= " AND ";
+		// 		}
+		// 		$sWhere .= "`".$columns[$i]."` LIKE :search".$i." ";
+		// 	}
+		// }
 		
 		// SQL queries get data to display
 		$sQuery = "SELECT SQL_CALC_FOUND_ROWS `".str_replace(" , ", " ", implode("`, `", $columns))."` FROM `".$table."` ".$sWhere." ".$sOrder." ".$sLimit;
